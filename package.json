@@ -1,0 +1,38 @@
+{
+  "name": "feistel-cipher",
+  "version": "1.0.0",
+  "description": "Feistel cipher implementation for (almost) format-preserving encryption",
+  "main": "dist/lib/src/typescript/index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "mocha 'test/src/typescript/feistel.spec.ts' --require ts-node/register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edgewhere/feistel-cipher.git"
+  },
+  "keywords": [
+    "feistel",
+    "cipher",
+    "format-preserving",
+    "encryption",
+    "fpe"
+  ],
+  "author": "Edgewhere <contact@edgewhere.fr>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/edgewhere/feistel-cipher/issues"
+  },
+  "homepage": "https://github.com/edgewhere/feistel-cipher#readme",
+  "devDependencies": {
+    "@types/chai": "^4.2.7",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^13.1.7",
+    "@types/typescript": "^2.0.0",
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.4"
+  }
+}
