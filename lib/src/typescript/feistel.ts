@@ -49,7 +49,7 @@ export class Cipher {
      */
     encrypt(data: string): Buffer {
         if (data.length % 2 == 1) {
-            data = leftPad(data, data.length + 1)
+            data = data.padStart(data.length + 1, PADDING_CHARACTER)
         }
         // Apply the Feistel cipher
         let parts = this.split(data)
@@ -113,7 +113,7 @@ export class Cipher {
     }
 
     // Split splits a string in two equal parts
-    private split(str: string): Array<string> {
+    private split(str: string): [string, string] {
         if (str.length % 2 != 0) {
             throw new Error('invalid string length: cannot be split')
         }
@@ -123,7 +123,7 @@ export class Cipher {
 
     // Xor function XOR two strings in the sense that each charCode are xored
     private xor(str1: string, str2: string): string {
-        var xored = ''
+        let xored = ''
         for (let i = 0; i < str1.length; i++) {
             xored += String.fromCharCode(str1.charCodeAt(i) ^ str2.charCodeAt(i))
         }
@@ -135,16 +135,6 @@ export class Cipher {
 
 // Unicode U+0002: start of text
 const PADDING_CHARACTER = '\u0002'
-
-const leftPad = (str: string, minLength: number): string => {
-    if (str.length >= minLength) {
-        return str
-    }
-    while (str.length < minLength) {
-        str = PADDING_CHARACTER + str
-    }
-    return str
-}
 
 const unpad = (str: string): string => {
     while (str.startsWith(PADDING_CHARACTER)) {
