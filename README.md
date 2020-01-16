@@ -19,7 +19,7 @@ This library operates on the concept of the Feistel cipher described in [Wikiped
 ![](assets/400px-Feistel_cipher_diagram_en.svg.png)
 
 The algorithmic description (provided by Wikipedia) of the encryption is as follows:
-* Let <img src="https://latex.codecogs.com/gif.latex?n+1" /> be the number of steps, <img src="https://latex.codecogs.com/gif.latex?K_{0},K_{1},...,K_{n}" /> the keys associated with each step and <img src="https://latex.codecogs.com/gif.latex?F:\Omega\times\mathcal{K}\mapsto\Omega" /> a function of the <img src="https://latex.codecogs.com/gif.latex?(words\times\ keys)" /> space to the word space.
+* Let <img src="https://latex.codecogs.com/gif.latex?n+1" /> be the number of steps, <img src="https://latex.codecogs.com/gif.latex?K_{0},K_{1},...,K_{n}" /> the keys associated with each step and <img src="https://latex.codecogs.com/gif.latex?F:\Omega\times\mathcal{K}\mapsto\Omega" /> a function of the <img src="https://latex.codecogs.com/gif.latex?(words{\times}keys)" /> space to the word space.
 * For each step <img src="https://latex.codecogs.com/gif.latex?i\in[0;n]" />, note the encrypted word in step <img src="https://latex.codecogs.com/gif.latex?i,m_{i}=L_{i}||R_{i}" />:
   * <img src="https://latex.codecogs.com/gif.latex?L_{i+1}=R_{i}" />
   * <img src="https://latex.codecogs.com/gif.latex?R_{i+1}=L_{i}\oplusF(L_{i},K_{i})" />
