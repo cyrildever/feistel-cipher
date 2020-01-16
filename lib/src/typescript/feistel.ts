@@ -57,7 +57,7 @@ export class Cipher {
             const tmp = this.xor(parts[0], this.round(parts[1], i))
             parts = [parts[1], tmp]
         }
-        return Buffer.from(parts[0] + parts[1], 'utf-8')
+        return Buffer.from(parts[0] + parts[1])
     }
 
     /**
