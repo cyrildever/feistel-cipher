@@ -1,4 +1,6 @@
+assets
 tsconfig.json
 node_modules
 lib
 test
+*.tgz
