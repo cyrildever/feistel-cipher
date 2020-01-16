@@ -22,7 +22,7 @@ export declare class Cipher {
      * @param {string} data - The data to obfuscate
      * @returns {Buffer} The byte array of the obfuscated result.
      */
-    apply(data: string): Buffer;
+    encrypt(data: string): Buffer;
 
     /**
      * Deobfuscate the passed data
@@ -30,7 +30,7 @@ export declare class Cipher {
      * @param {Buffer} obfuscated - The byte array to use
      * @returns {string} The deobfuscated string.
      */
-    unapply(obfuscated: Buffer): string;
+    decrypt(obfuscated: Buffer): string;
 
     private add;
     private extract;

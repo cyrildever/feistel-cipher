@@ -47,21 +47,17 @@ export class Cipher {
      * @param {string} data - The data to obfuscate
      * @returns {Buffer} The byte array of the obfuscated result.
      */
-    apply(data: string): Buffer {
+    encrypt(data: string): Buffer {
         if (data.length % 2 == 1) {
             data = leftPad(data, data.length + 1)
         }
         // Apply the Feistel cipher
-        let obfuscated = ''
-
         let parts = this.split(data)
         for (let i = 0; i < this.rounds; i++) {
             const tmp = this.xor(parts[0], this.round(parts[1], i))
             parts = [parts[1], tmp]
         }
-        obfuscated = parts[0] + parts[1]
-
-        return Buffer.from(obfuscated, 'utf-8')
+        return Buffer.from(parts[0] + parts[1], 'utf-8')
     }
 
     /**
@@ -70,13 +66,12 @@ export class Cipher {
      * @param {Buffer} obfuscated - The byte array to use
      * @returns {string} The deobfuscated string.
      */
-    unapply(obfuscated: Buffer): string {
+    decrypt(obfuscated: Buffer): string {
         const o = obfuscated.toString('utf-8')
         if (o.length % 2 != 0) {
             throw new Error('invalid obfuscated data')
         }
         // Apply Feistel cipher
-        let deobfuscated = ''
         const parts = this.split(o)
         let a = parts[1]
         let b = parts[0]
@@ -85,9 +80,7 @@ export class Cipher {
             a = b
             b = tmp
         }
-        deobfuscated = b + a
-
-        return unpad(deobfuscated)
+        return unpad(b + a)
     }
 
     // Feistel implementation
