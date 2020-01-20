@@ -6,7 +6,7 @@
   "types": "index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "mocha 'test/src/typescript/feistel.spec.ts' --require ts-node/register"
+    "test": "mocha 'test/src/typescript/node.spec.ts' --require ts-node/register && tsc && browserify ./dist/test/src/typescript/browser.spec.js -o dist/test/src/typescript/index.js && live-server --port=9001 --mount=/:test/src/typescript"
   },
   "repository": {
     "type": "git",
