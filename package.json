@@ -1,6 +1,6 @@
 {
   "name": "feistel-cipher",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Feistel cipher implementation for (almost) format-preserving encryption",
   "main": "dist/lib/src/typescript/index.js",
   "types": "index.d.ts",
@@ -32,6 +32,8 @@
     "chai": "^4.2.0",
     "mocha": "^6.2.2",
     "ts-node": "^8.6.2",
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.4",
+    "browserify": "16.5.0",
+    "live-server": "1.2.1"
   }
 }
