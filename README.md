@@ -1,5 +1,8 @@
 # feistel-cipher
 
+![npm](https://img.shields.io/npm/dw/feistel-cipher)
+![GitHub](https://img.shields.io/github/license/edgewhere/feistel-cipher)
+
 This is a TypeScript library implementing the Feistel cipher for "almost" format-preserving encryption.
 "Almost" because as we use a balanced version of the implementation, we need the input string to be of even length. If that's the case, the length will be preserved, otherwise the output will be one character longer.
 
