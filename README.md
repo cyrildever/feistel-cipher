@@ -1,6 +1,9 @@
 # feistel-cipher
 
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/edgewhere/feistel-cipher)
 ![npm](https://img.shields.io/npm/dw/feistel-cipher)
+![GitHub last commit](https://img.shields.io/github/last-commit/edgewhere/feistel-cipher)
+![GitHub issues](https://img.shields.io/github/issues/edgewhere/feistel-cipher)
 ![GitHub](https://img.shields.io/github/license/edgewhere/feistel-cipher)
 
 This is a TypeScript library implementing the Feistel cipher for "almost" format-preserving encryption.

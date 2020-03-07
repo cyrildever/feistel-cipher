@@ -24,7 +24,7 @@ SOFTWARE.
 import { createHash, BinaryLike } from 'crypto'
 
 const sha256 = (msg: BinaryLike): Buffer =>
-    createHash("sha256").update(msg).digest()
+  createHash("sha256").update(msg).digest()
 
 /**
  * The Cipher class is the main entry point to the Feistel cipher.
@@ -33,102 +33,102 @@ const sha256 = (msg: BinaryLike): Buffer =>
  * Once instantiated, use the apply() or unapply() methods on the Cipher instance with the appropriate data.
  */
 export class Cipher {
-    key: string
-    rounds: number
+  key: string
+  rounds: number
 
-    constructor(key: string, rounds: number) {
-        this.key = key
-        this.rounds = rounds
+  constructor(key: string, rounds: number) {
+    this.key = key
+    this.rounds = rounds
+  }
+
+  /**
+   * Obfuscate the passed data
+   * 
+   * @param {string} data - The data to obfuscate
+   * @returns {Buffer} The byte array of the obfuscated result.
+   */
+  encrypt(data: string): Buffer {
+    if (data.length % 2 == 1) {
+      data = data.padStart(data.length + 1, PADDING_CHARACTER)
     }
-
-    /**
-     * Obfuscate the passed data
-     * 
-     * @param {string} data - The data to obfuscate
-     * @returns {Buffer} The byte array of the obfuscated result.
-     */
-    encrypt(data: string): Buffer {
-        if (data.length % 2 == 1) {
-            data = data.padStart(data.length + 1, PADDING_CHARACTER)
-        }
-        // Apply the Feistel cipher
-        let parts = this.split(data)
-        for (let i = 0; i < this.rounds; i++) {
-            const tmp = this.xor(parts[0], this.round(parts[1], i))
-            parts = [parts[1], tmp]
-        }
-        return Buffer.from(parts[0] + parts[1])
+    // Apply the Feistel cipher
+    let parts = this.split(data)
+    for (let i = 0; i < this.rounds; i++) {
+      const tmp = this.xor(parts[0], this.round(parts[1], i))
+      parts = [parts[1], tmp]
     }
+    return Buffer.from(parts[0] + parts[1])
+  }
 
-    /**
-     * Deobfuscate the passed data
-     * 
-     * @param {Buffer} obfuscated - The byte array to use
-     * @returns {string} The deobfuscated string.
-     */
-    decrypt(obfuscated: Buffer): string {
-        const o = obfuscated.toString('utf-8')
-        if (o.length % 2 != 0) {
-            throw new Error('invalid obfuscated data')
-        }
-        // Apply Feistel cipher
-        const parts = this.split(o)
-        let a = parts[1]
-        let b = parts[0]
-        for (let i = 0; i < this.rounds; i++) {
-            const tmp = this.xor(a, this.round(b, this.rounds - i - 1))
-            a = b
-            b = tmp
-        }
-        return unpad(b + a)
+  /**
+   * Deobfuscate the passed data
+   * 
+   * @param {Buffer} obfuscated - The byte array to use
+   * @returns {string} The deobfuscated string.
+   */
+  decrypt(obfuscated: Buffer): string {
+    const o = obfuscated.toString('utf-8')
+    if (o.length % 2 != 0) {
+      throw new Error('invalid obfuscated data')
     }
-
-    // Feistel implementation
-
-    // Add adds two strings in the sense that each charCode are added
-    private add(str1: string, str2: string): string {
-        if (str1.length != str2.length) {
-            throw new Error('to be added, strings must be of the same length')
-        }
-        let addedString = ''
-        for (let i = 0; i < str1.length; i++) {
-            addedString += String.fromCharCode(str1.charCodeAt(i) + str2.charCodeAt(i))
-        }
-        return addedString
+    // Apply Feistel cipher
+    const parts = this.split(o)
+    let a = parts[1]
+    let b = parts[0]
+    for (let i = 0; i < this.rounds; i++) {
+      const tmp = this.xor(a, this.round(b, this.rounds - i - 1))
+      a = b
+      b = tmp
     }
+    return unpad(b + a)
+  }
 
-    // Extract returns an extraction of the passed string of the desired length from the passed start index.
-    // If the desired length is too long, the key string is repeated.
-    private extract(from: string, startIndex: number, desiredLength: number): string {
-        startIndex = startIndex % from.length
-        const lengthNeeded = startIndex + desiredLength
-        return from.repeat(Math.ceil(lengthNeeded / from.length)).substr(startIndex, desiredLength)
-    }
+  // Feistel implementation
 
-    // Round is the function applied at each round of the obfuscation process to the right side of the Feistel cipher
-    private round(item: string, index: number): string {
-        const addition = this.add(item, this.extract(this.key, index, item.length))
-        let hashed = sha256(addition).toString('hex')
-        return this.extract(hashed, index, item.length)
+  // Add adds two strings in the sense that each charCode are added
+  private add(str1: string, str2: string): string {
+    if (str1.length != str2.length) {
+      throw new Error('to be added, strings must be of the same length')
     }
+    let addedString = ''
+    for (let i = 0; i < str1.length; i++) {
+      addedString += String.fromCharCode(str1.charCodeAt(i) + str2.charCodeAt(i))
+    }
+    return addedString
+  }
 
-    // Split splits a string in two equal parts
-    private split(str: string): [string, string] {
-        if (str.length % 2 != 0) {
-            throw new Error('invalid string length: cannot be split')
-        }
-        const half = str.length / 2
-        return [str.substr(0, half), str.substr(half)]
-    }
+  // Extract returns an extraction of the passed string of the desired length from the passed start index.
+  // If the desired length is too long, the key string is repeated.
+  private extract(from: string, startIndex: number, desiredLength: number): string {
+    startIndex = startIndex % from.length
+    const lengthNeeded = startIndex + desiredLength
+    return from.repeat(Math.ceil(lengthNeeded / from.length)).substr(startIndex, desiredLength)
+  }
 
-    // Xor function XOR two strings in the sense that each charCode are xored
-    private xor(str1: string, str2: string): string {
-        let xored = ''
-        for (let i = 0; i < str1.length; i++) {
-            xored += String.fromCharCode(str1.charCodeAt(i) ^ str2.charCodeAt(i))
-        }
-        return xored
+  // Round is the function applied at each round of the obfuscation process to the right side of the Feistel cipher
+  private round(item: string, index: number): string {
+    const addition = this.add(item, this.extract(this.key, index, item.length))
+    let hashed = sha256(addition).toString('hex')
+    return this.extract(hashed, index, item.length)
+  }
+
+  // Split splits a string in two equal parts
+  private split(str: string): [string, string] {
+    if (str.length % 2 != 0) {
+      throw new Error('invalid string length: cannot be split')
     }
+    const half = str.length / 2
+    return [str.substr(0, half), str.substr(half)]
+  }
+
+  // Xor function XOR two strings in the sense that each charCode are xored
+  private xor(str1: string, str2: string): string {
+    let xored = ''
+    for (let i = 0; i < str1.length; i++) {
+      xored += String.fromCharCode(str1.charCodeAt(i) ^ str2.charCodeAt(i))
+    }
+    return xored
+  }
 }
 
 //--- PADDING utilities
@@ -137,8 +137,8 @@ export class Cipher {
 const PADDING_CHARACTER = '\u0002'
 
 const unpad = (str: string): string => {
-    while (str.startsWith(PADDING_CHARACTER)) {
-        str = str.substr(1)
-    }
-    return str
+  while (str.startsWith(PADDING_CHARACTER)) {
+    str = str.substr(1)
+  }
+  return str
 }
