@@ -1,16 +1,17 @@
 {
   "name": "feistel-cipher",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Feistel cipher implementation for (almost) format-preserving encryption",
   "main": "dist/lib/src/typescript/index.js",
   "types": "index.d.ts",
   "scripts": {
+    "preinstall": "npx npm-force-resolutions",
     "build": "tsc",
     "test": "tsc && mocha 'test/src/typescript/node.spec.ts' --require ts-node/register && browserify ./dist/test/src/typescript/browser.spec.js -o dist/test/src/typescript/index.js && live-server --port=9001 --mount=/:test/src/typescript"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/edgewhere/feistel-cipher.git"
+    "url": "git+https://github.com/cyrildever/feistel-cipher.git"
   },
   "keywords": [
     "feistel",
@@ -19,21 +20,24 @@
     "encryption",
     "fpe"
   ],
-  "author": "Edgewhere <cdever@edgewhere.fr>",
+  "author": "Cyril Dever <cdever@edgewhere.fr>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/edgewhere/feistel-cipher/issues"
+    "url": "https://github.com/cyrildever/feistel-cipher/issues"
   },
-  "homepage": "https://github.com/edgewhere/feistel-cipher#readme",
+  "homepage": "https://github.com/cyrildever/feistel-cipher#readme",
   "devDependencies": {
-    "@types/chai": "^4.2.7",
+    "@types/chai": "^4.2.11",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^13.1.7",
-    "chai": "^4.2.0",
-    "mocha": "^6.2.2",
-    "ts-node": "^8.6.2",
-    "typescript": "^3.8.3",
+    "@types/node": "^13.13.10",
     "browserify": "16.5.0",
-    "live-server": "1.2.1"
+    "chai": "^4.2.0",
+    "live-server": "^1.2.1",
+    "mocha": "^6.2.3",
+    "ts-node": "^8.10.2",
+    "typescript": "~3.8.3"
+  },
+  "resolutions": {
+    "websocket-extensions": "0.1.4"
   }
 }
