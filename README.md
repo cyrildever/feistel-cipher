@@ -1,9 +1,9 @@
 # feistel-cipher
 
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/edgewhere/feistel-cipher)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/cyrildever/feistel-cipher)
 ![npm](https://img.shields.io/npm/dw/feistel-cipher)
-![GitHub last commit](https://img.shields.io/github/last-commit/edgewhere/feistel-cipher)
-![GitHub issues](https://img.shields.io/github/issues/edgewhere/feistel-cipher)
+![GitHub last commit](https://img.shields.io/github/last-commit/cyrildever/feistel-cipher)
+![GitHub issues](https://img.shields.io/github/issues/cyrildever/feistel-cipher)
 ![NPM](https://img.shields.io/npm/l/feistel-cipher)
 
 This is a TypeScript library implementing the Feistel cipher for "almost" format-preserving encryption.
@@ -69,4 +69,4 @@ See the [LICENSE](LICENSE) file.
 
 
 <hr />
-&copy; 2020 Edgewhere SAS. All rights reserved.
+&copy; 2020 Cyril Dever. All rights reserved.
