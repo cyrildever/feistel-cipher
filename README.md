@@ -20,18 +20,18 @@ This library operates on the concept of the Feistel cipher described in [Wikiped
 > A Feistel network is subdivided into several rounds or steps. In its balanced version, the network processes the data in two parts of identical size. On each round, the two blocks are exchanged, then one of the blocks is combined with a transformed version of the other block.
 > Half of the data is encoded with the key, then the result of this operation is added using an XOR operation to the other half of the data.
 > Then in the next round, we reverse: it is the turn of the last half to be encrypted and then to be xored to the first half, except that we use the data previously encrypted.
-> The diagram below shows the data flow (the <img src="https://latex.codecogs.com/gif.latex?\oplus" /> represents the XOR operation). Each round uses an intermediate key, usually taken from the main key via a generation called key schedule. The operations performed during encryption with these intermediate keys are specific to each algorithm.
+> The diagram below shows the data flow (the ![${\oplus}$](https://render.githubusercontent.com/render/math?math={\oplus}) represents the XOR operation). Each round uses an intermediate key, usually taken from the main key via a generation called key schedule. The operations performed during encryption with these intermediate keys are specific to each algorithm.
 
 ![](assets/400px-Feistel_cipher_diagram_en.svg.png)
 
 The algorithmic description (provided by Wikipedia) of the encryption is as follows:
-* Let <img src="https://latex.codecogs.com/gif.latex?n+1" /> be the number of steps, <img src="https://latex.codecogs.com/gif.latex?K_{0},K_{1},...,K_{n}" /> the keys associated with each step and <img src="https://latex.codecogs.com/gif.latex?F:\Omega\times\mathcal{K}\mapsto\Omega" /> a function of the <img src="https://latex.codecogs.com/gif.latex?(words{\times}keys)" /> space to the word space.
-* For each step <img src="https://latex.codecogs.com/gif.latex?i\in[0;n]" />, note the encrypted word in step <img src="https://latex.codecogs.com/gif.latex?i,m_{i}=L_{i}||R_{i}" />:
-  * <img src="https://latex.codecogs.com/gif.latex?L_{i+1}=R_{i}" />
-  * <img src="https://latex.codecogs.com/gif.latex?R_{i+1}=L_{i}\oplusF(L_{i},K_{i})" />
-* <img src="https://latex.codecogs.com/gif.latex?m_{0}=L_{0}||R_{0}" /> is the unciphered text, <img src="https://latex.codecogs.com/gif.latex?m_{n+1}=L_{n+1}||R_{n+1}" /> is the ciphered word.
+* Let ![$n+1$](https://render.githubusercontent.com/render/math?math=n%2B1) be the number of steps, ![$K_{0},K_{1},...,K_{n}$](https://render.githubusercontent.com/render/math?math=K_{0},K_{1},...,K_{n}) the keys associated with each step and ![$F:\Omega\times\mathcal{K}\mapsto\Omega$](https://render.githubusercontent.com/render/math?math=F:\Omega{\times}K\mapsto\Omega) a function of the ![$(words{\times}keys)$](https://render.githubusercontent.com/render/math?math=(words{\times}keys)) space to the ![$words$](https://render.githubusercontent.com/render/math?math=words) space.
+* For each step ![$i{\in}[0;n]$](https://render.githubusercontent.com/render/math?math=i\in[0%3Bn]), note the encrypted word in step ![$i,m_{i}=L_{i}||R_{i}$](https://render.githubusercontent.com/render/math?math=i,m_{i}=L_{i}||R_{i}):
+  * ![$L_{i+1}=R_{i}$](https://render.githubusercontent.com/render/math?math=L_{i%2B1}=R_{i})
+  * ![$R_{i+1}=L_{i}{\oplus}F(L_{i},K_{i})$](https://render.githubusercontent.com/render/math?math=R_{i%2B1}=L_{i}{\oplus}F(L_{i},K_{i}))
+* ![$m_{0}=L_{0}||R_{0}$](https://render.githubusercontent.com/render/math?math=m_{0}=L_{0}||R_{0}) is the unciphered text, ![$m_{n+1}=L_{n+1}||R_{n+1}$](https://render.githubusercontent.com/render/math?math=m_{n%2B1}=L_{n%2B1}||R_{n%2B1}) is the ciphered word. 
 
-There is no restriction on the <img src="https://latex.codecogs.com/gif.latex?F" /> function other than the XOR operation must be possible. For simplicity, we will choose <img src="https://latex.codecogs.com/gif.latex?L1" /> of the same size as <img src="https://latex.codecogs.com/gif.latex?R1" /> and the function <img src="https://latex.codecogs.com/gif.latex?F" /> shall transform a word of length <img src="https://latex.codecogs.com/gif.latex?k" /> into a word of length <img src="https://latex.codecogs.com/gif.latex?k" /> (and this for all <img src="https://latex.codecogs.com/gif.latex?k" />).
+There is no restriction on the ![$F$](https://render.githubusercontent.com/render/math?math=F) function other than the XOR operation must be possible. For simplicity, we will choose ![$L1$](https://render.githubusercontent.com/render/math?math=L1) of the same size as ![$R1$](https://render.githubusercontent.com/render/math?math=R1) and the function ![$F$](https://render.githubusercontent.com/render/math?math=F) shall transform a word of length ![$k$](https://render.githubusercontent.com/render/math?math=k) into a word of length ![$k$](https://render.githubusercontent.com/render/math?math=k) (and this for all ![$k$](https://render.githubusercontent.com/render/math?math=k)).
 
 
 ### Usage
