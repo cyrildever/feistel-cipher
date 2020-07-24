@@ -23,4 +23,4 @@ SOFTWARE.
 
 import { } from './feistel'
 
-module.exports = require("./feistel")
+module.exports = require('./feistel')

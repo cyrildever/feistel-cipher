@@ -53,7 +53,7 @@ export class Cipher {
     }
     // Apply the Feistel cipher
     let parts = this.split(data)
-    for (let i = 0; i < this.rounds; i++) {
+    for (let i = 0; i < this.rounds; ++i) {
       const tmp = this.xor(parts[0], this.round(parts[1], i))
       parts = [parts[1], tmp]
     }
@@ -75,7 +75,7 @@ export class Cipher {
     const parts = this.split(o)
     let a = parts[1]
     let b = parts[0]
-    for (let i = 0; i < this.rounds; i++) {
+    for (let i = 0; i < this.rounds; ++i) {
       const tmp = this.xor(a, this.round(b, this.rounds - i - 1))
       a = b
       b = tmp
@@ -91,7 +91,7 @@ export class Cipher {
       throw new Error('to be added, strings must be of the same length')
     }
     let addedString = ''
-    for (let i = 0; i < str1.length; i++) {
+    for (let i = 0; i < str1.length; ++i) {
       addedString += String.fromCharCode(str1.charCodeAt(i) + str2.charCodeAt(i))
     }
     return addedString
@@ -124,7 +124,7 @@ export class Cipher {
   // Xor function XOR two strings in the sense that each charCode are xored
   private xor(str1: string, str2: string): string {
     let xored = ''
-    for (let i = 0; i < str1.length; i++) {
+    for (let i = 0; i < str1.length; ++i) {
       xored += String.fromCharCode(str1.charCodeAt(i) ^ str2.charCodeAt(i))
     }
     return xored
