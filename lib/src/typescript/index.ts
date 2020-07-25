@@ -21,6 +21,4 @@ SOFTWARE.
 
 */
 
-import { } from './feistel'
-
-module.exports = require('./feistel')
+export * from './feistel'

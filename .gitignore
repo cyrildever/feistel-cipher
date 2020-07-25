@@ -66,3 +66,4 @@ typings/
 .idea
 .vscode
 dist
+.DS_Store

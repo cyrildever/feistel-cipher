@@ -24,7 +24,7 @@ SOFTWARE.
 import { createHash, BinaryLike } from 'crypto'
 
 const sha256 = (msg: BinaryLike): Buffer =>
-  createHash("sha256").update(msg).digest()
+  createHash('sha256').update(msg).digest()
 
 /**
  * The Cipher class is the main entry point to the Feistel cipher.
@@ -53,7 +53,7 @@ export class Cipher {
     }
     // Apply the Feistel cipher
     let parts = this.split(data)
-    for (let i = 0; i < this.rounds; ++i) {
+    for (let i = 0; i < this.rounds; ++i) { // eslint-disable-line no-loops/no-loops
       const tmp = this.xor(parts[0], this.round(parts[1], i))
       parts = [parts[1], tmp]
     }
@@ -75,7 +75,7 @@ export class Cipher {
     const parts = this.split(o)
     let a = parts[1]
     let b = parts[0]
-    for (let i = 0; i < this.rounds; ++i) {
+    for (let i = 0; i < this.rounds; ++i) { // eslint-disable-line no-loops/no-loops
       const tmp = this.xor(a, this.round(b, this.rounds - i - 1))
       a = b
       b = tmp
@@ -90,11 +90,7 @@ export class Cipher {
     if (str1.length != str2.length) {
       throw new Error('to be added, strings must be of the same length')
     }
-    let addedString = ''
-    for (let i = 0; i < str1.length; ++i) {
-      addedString += String.fromCharCode(str1.charCodeAt(i) + str2.charCodeAt(i))
-    }
-    return addedString
+    return Array.from(str1).reduce((addedString, c, idx) => addedString + String.fromCharCode(c.charCodeAt(0) + str2.charCodeAt(idx)), '')
   }
 
   // Extract returns an extraction of the passed string of the desired length from the passed start index.
@@ -108,7 +104,7 @@ export class Cipher {
   // Round is the function applied at each round of the obfuscation process to the right side of the Feistel cipher
   private round(item: string, index: number): string {
     const addition = this.add(item, this.extract(this.key, index, item.length))
-    let hashed = sha256(addition).toString('hex')
+    const hashed = sha256(addition).toString('hex')
     return this.extract(hashed, index, item.length)
   }
 
@@ -123,11 +119,7 @@ export class Cipher {
 
   // Xor function XOR two strings in the sense that each charCode are xored
   private xor(str1: string, str2: string): string {
-    let xored = ''
-    for (let i = 0; i < str1.length; ++i) {
-      xored += String.fromCharCode(str1.charCodeAt(i) ^ str2.charCodeAt(i))
-    }
-    return xored
+    return Array.from(str1).reduce((xored, c, idx) => xored + String.fromCharCode(c.charCodeAt(0) ^ str2.charCodeAt(idx)), '')
   }
 }
 
@@ -137,7 +129,7 @@ export class Cipher {
 const PADDING_CHARACTER = '\u0002'
 
 const unpad = (str: string): string => {
-  while (str.startsWith(PADDING_CHARACTER)) {
+  while (str.startsWith(PADDING_CHARACTER)) { // eslint-disable-line no-loops/no-loops
     str = str.substr(1)
   }
   return str

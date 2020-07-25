@@ -2,8 +2,7 @@ import * as chai from 'chai'
 import 'mocha'
 chai.should()
 
-type Feistel = typeof import('../../..')
-const feistel = require('../../../lib/src/typescript/index') as Feistel
+import * as feistel from '../../../lib/src/typescript/index'
 
 describe('Cipher', () => {
   describe('apply', () => {

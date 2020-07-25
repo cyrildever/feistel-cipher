@@ -31,7 +31,7 @@ The algorithmic description (provided by Wikipedia) of the encryption is as foll
   * ![$R_{i+1}=L_{i}{\oplus}F(L_{i},K_{i})$](https://render.githubusercontent.com/render/math?math=R_{i%2B1}=L_{i}{\oplus}F(L_{i},K_{i}))
 * ![$m_{0}=L_{0}||R_{0}$](https://render.githubusercontent.com/render/math?math=m_{0}=L_{0}||R_{0}) is the unciphered text, ![$m_{n+1}=L_{n+1}||R_{n+1}$](https://render.githubusercontent.com/render/math?math=m_{n%2B1}=L_{n%2B1}||R_{n%2B1}) is the ciphered word. 
 
-There is no restriction on the ![$F$](https://render.githubusercontent.com/render/math?math=F) function other than the XOR operation must be possible. For simplicity, we will choose ![$L1$](https://render.githubusercontent.com/render/math?math=L1) of the same size as ![$R1$](https://render.githubusercontent.com/render/math?math=R1) and the function ![$F$](https://render.githubusercontent.com/render/math?math=F) shall transform a word of length ![$k$](https://render.githubusercontent.com/render/math?math=k) into a word of length ![$k$](https://render.githubusercontent.com/render/math?math=k) (and this for all ![$k$](https://render.githubusercontent.com/render/math?math=k)).
+There is no restriction on the ![$F$](https://render.githubusercontent.com/render/math?math=F) function other than the XOR operation must be possible. For simplicity, we will choose ![$L_1$](https://render.githubusercontent.com/render/math?math=L_1) of the same size as ![$R_1$](https://render.githubusercontent.com/render/math?math=R_1) and the function ![$F$](https://render.githubusercontent.com/render/math?math=F) shall transform a word of length ![$k$](https://render.githubusercontent.com/render/math?math=k) into a word of length ![$k$](https://render.githubusercontent.com/render/math?math=k) (and this for all ![$k$](https://render.githubusercontent.com/render/math?math=k)).
 
 
 ### Usage
@@ -42,7 +42,7 @@ npm i feistel-cipher
 
 To get an obfuscated string from a source data, first instantiate a `Cipher` object, passing it a key and a number of rounds.
 Then, use the `encrypt()` method with the source data as argument. The result will be a `Buffer`.
-To ensure maximum security, we recommend you use a 256-bit key or longer and a minimum of 10 rounds.
+To ensure maximum security, I recommend you use a 256-bit key or longer and a minimum of 10 rounds.
 
 The decryption process uses the obfuscated buffered data and pass it to the `decrypt()` method of the `Cipher`. 
 
