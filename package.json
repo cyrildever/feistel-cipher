@@ -28,9 +28,9 @@
   },
   "homepage": "https://github.com/cyrildever/feistel-cipher#readme",
   "devDependencies": {
-    "@types/chai": "^4.2.11",
+    "@types/chai": "^4.2.12",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^13.13.10",
+    "@types/node": "^13.13.21",
     "@typescript-eslint/eslint-plugin": "~2.30.0",
     "@typescript-eslint/parser": "~2.30.0",
     "browserify": "16.5.0",
