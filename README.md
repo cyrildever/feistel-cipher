@@ -62,6 +62,11 @@ assert(deciphered == source)
 ```
 
 
+### Other implementations
+
+For those interested, I also made another implementation this Feistel cipher in [Golang](https://github.com/cyrildever/feistel).
+
+
 ### License
 
 This module is distributed under an MIT license.
@@ -69,4 +74,4 @@ See the [LICENSE](LICENSE) file.
 
 
 <hr />
-&copy; 2020 Cyril Dever. All rights reserved.
+&copy; 2020-2021 Cyril Dever. All rights reserved.
