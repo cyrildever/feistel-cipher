@@ -20,5 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-export * from './feistel'
-export * from './custom'
+// xor applies XOR operation on two strings in the sense that each charCode are xored
+export const xor = (str1: string, str2: string): string => {
+  return Array.from(str1).reduce((xored, c, idx) => xored + String.fromCharCode(c.charCodeAt(0) ^ str2.charCodeAt(idx)), '')
+}

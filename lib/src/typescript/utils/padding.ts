@@ -20,5 +20,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-export * from './feistel'
-export * from './custom'
+// Unicode U+0002: start-of-text
+export const PADDING_CHARACTER = '\u0002'
+
+export const unpad = (str: string): string => {
+  while (str.startsWith(PADDING_CHARACTER)) { // eslint-disable-line no-loops/no-loops
+    str = str.substr(1)
+  }
+  return str
+}

@@ -20,5 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-export * from './feistel'
-export * from './custom'
+import { createHash, BinaryLike } from 'crypto'
+
+export const Hash = (msg: BinaryLike): Buffer =>
+  createHash('sha256').update(msg).digest()
