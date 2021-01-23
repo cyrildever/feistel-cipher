@@ -64,7 +64,7 @@ assert(deciphered == source)
 
 ### Other implementations
 
-For those interested, I also made another implementation this Feistel cipher in [Golang](https://github.com/cyrildever/feistel).
+For those interested, I also made another implementation of this Feistel cipher in [Golang](https://github.com/cyrildever/feistel).
 
 
 ### License
