@@ -40,7 +40,7 @@ There is no restriction on the ![$F$](https://render.githubusercontent.com/rende
 npm i feistel-cipher
 ```
 
-To get an obfuscated string from a source data, first instantiate a `Cipher` object, passing it a key and a number of rounds.
+To get an obfuscated string from a source data using the SHA-256 hashing function at each round, first instantiate a `Cipher` object, passing it a key and a number of rounds.
 Then, use the `encrypt()` method with the source data as argument. The result will be a `Buffer`.
 To ensure maximum security, I recommend you use a 256-bit key or longer and a minimum of 10 rounds.
 
@@ -59,6 +59,16 @@ const obfuscated = cipher.encrypt(source)
 const deciphered = cipher.decrypt(obfuscated)
 
 assert(deciphered == source)
+```
+_NB: This is the same default behaviour as in my Golang implementation (see below)._
+
+You may also want to use your own set of keys with `CustomCipher` and a number of rounds depending on the number of provided keys, eg.
+```typescript
+const cipher = new feistel.CustomCipher([
+  '1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
+  '9876543210fedcba9876543210fedcba9876543210fedcba9876543210fedcba',
+  'abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789'
+])
 ```
 
 

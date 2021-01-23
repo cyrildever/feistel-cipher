@@ -21,3 +21,4 @@ SOFTWARE.
 */
 
 export * from './feistel'
+export * from './custom'

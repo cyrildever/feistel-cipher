@@ -26,30 +26,28 @@ import { add, extract, split } from './utils/strings'
 import { xor } from './utils/xor'
 
 /**
- * The Cipher class is the main entry point to the Feistel cipher if you want to use the SHA-256 hash function at each round.
- * You should instantiate it with the base key you want to use and the number of rounds to apply.
- * For better security, you should choose a 256-bit key or longer, and 10 rounds is a good start.
+ * The CustomCipher class is the entry point to the Feistel cipher if you want to use your own set of keys.
+ * The number of rounds will be defined by the number of keys provided at instantiation.
+ * For better security, you should choose a 256-bit keys or longer.
  * Once instantiated, use the encrypt() or decrypt() methods on the Cipher instance with the appropriate data.
  * 
- * @throws wrong arguments
+ * @throws no key provided
  */
-export class Cipher {
-  key: string
-  rounds: number
+export class CustomCipher {
+  keys: ReadonlyArray<string>
 
-  constructor(key: string, rounds: number) {
-    if (key === '' || rounds === 0) {
-      throw new Error('wrong arguments')
+  constructor(keys: ReadonlyArray<string>) {
+    if (keys.length == 0) {
+      throw new Error('no key provided')
     }
-    this.key = key
-    this.rounds = rounds
+    this.keys = keys
   }
 
   /**
    * Obfuscate the passed data
    * 
    * @param {string} data - The data to obfuscate
-   * @returns {Buffer} The byte array of the obfuscated result.
+   * @returns {Buffer} The byte array of the obfuscated result
    */
   encrypt(data: string): Buffer {
     if (data.length % 2 == 1) {
@@ -57,7 +55,7 @@ export class Cipher {
     }
     // Apply the Feistel cipher
     let parts = split(data)
-    for (let i = 0; i < this.rounds; ++i) { // eslint-disable-line no-loops/no-loops
+    for (let i = 0; i < this.keys.length; ++i) { // eslint-disable-line no-loops/no-loops
       const tmp = xor(parts[0], this.round(parts[1], i))
       parts = [parts[1], tmp]
     }
@@ -80,8 +78,8 @@ export class Cipher {
     const parts = split(o)
     let a = parts[1]
     let b = parts[0]
-    for (let i = 0; i < this.rounds; ++i) { // eslint-disable-line no-loops/no-loops
-      const tmp = xor(a, this.round(b, this.rounds - i - 1))
+    for (let i = 0; i < this.keys.length; ++i) { // eslint-disable-line no-loops/no-loops
+      const tmp = xor(a, this.round(b, this.keys.length - i - 1))
       a = b
       b = tmp
     }
@@ -92,7 +90,7 @@ export class Cipher {
 
   // Round is the function applied at each round of the obfuscation process to the right side of the Feistel cipher
   private round(item: string, index: number): string {
-    const addition = add(item, extract(this.key, index, item.length))
+    const addition = add(item, extract(this.keys[index], index, item.length))
     const hashed = Hash(addition).toString('hex')
     return extract(hashed, index, item.length)
   }
