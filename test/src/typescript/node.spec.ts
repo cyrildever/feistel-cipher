@@ -5,6 +5,7 @@ chai.should()
 import * as feistel from '../../../lib/src/typescript/index'
 import { base256CharAt, hex2Readable, indexOfBase256, readable2Buffer, readable2Hex, toBase256Readable } from '../../../lib/src/typescript/index'
 import { BLAKE2b, H, KECCAK, SHA_256, SHA_3 } from '../../../lib/src/typescript/utils/hash'
+import { split } from '../../../lib/src/typescript/utils/strings'
 
 describe('Cipher', () => {
   describe('encrypt', () => {
@@ -95,6 +96,23 @@ describe('hash', () => {
       const expected = '9d6bf5763cb18bceb7c15270ff8400ae70bf3cd71928463a30f02805d913409d'
       const found = H(data, SHA_3)
       found.toString('hex').should.equal(expected)
+    })
+  })
+})
+describe('strings', () => {
+  describe('split', () => {
+    it('should split a string in two, the first part being the smallest if it is of odd length', () => {
+      const odd = 'Edgewhere'
+      let parts = split(odd)
+      parts.should.have.lengthOf(2)
+      parts[0].should.equal('Edge')
+      parts[1].should.equal('where')
+
+      const even = 'cyrildever'
+      parts = split(even)
+      parts.should.have.lengthOf(2)
+      parts[0].should.equal('cyril')
+      parts[1].should.equal('dever')
     })
   })
 })
