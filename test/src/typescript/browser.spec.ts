@@ -1,4 +1,5 @@
 import * as feistel from '../../../lib/src/typescript/index'
+import { base256CharAt, hex2Readable, indexOfBase256, readable2Buffer, readable2Hex, toBase256Readable } from '../../../lib/src/typescript/index'
 import { BLAKE2b, H, KECCAK, SHA_256, SHA_3 } from '../../../lib/src/typescript/utils/hash'
 
 describe('Cipher', () => {
@@ -91,5 +92,22 @@ describe('hash', () => {
       const found = H(data, SHA_3)
       found.toString('hex').should.equal(expected)
     })
+  })
+})
+describe('Readable', () => {
+  it('should use the appropriate base-256 character set', () => {
+    base256CharAt(0).should.equal('!')
+    base256CharAt(255).should.equal('ǿ')
+    indexOfBase256('ǿ').should.equal(255)
+  })
+  it('should be built from a byte array or an hexadecimal string', () => {
+    const expected = 'K¡(#q|r5*'
+    const fpeBytes = Buffer.from([42, 93, 7, 2, 79, 90, 80, 20, 9])
+    const found = toBase256Readable(fpeBytes)
+    found.should.equal(expected)
+    readable2Buffer(found).should.eqls(fpeBytes)
+    readable2Hex(found).should.equal('2a5d07024f5a501409')
+    const hex = hex2Readable('2a5d07024f5a501409')
+    hex.should.equal(found)
   })
 })

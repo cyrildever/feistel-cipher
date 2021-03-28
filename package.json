@@ -28,6 +28,11 @@
     "url": "https://github.com/cyrildever/feistel-cipher/issues"
   },
   "homepage": "https://github.com/cyrildever/feistel-cipher#readme",
+  "peerDependencies": {
+    "blakejs": "^1.1.0",
+    "keccak": "^3.0.1",
+    "sha3": "^2.1.4"
+  },
   "devDependencies": {
     "@types/chai": "^4.2.14",
     "@types/keccak": "^3.0.1",
@@ -35,21 +40,19 @@
     "@types/node": "^13.13.40",
     "@typescript-eslint/eslint-plugin": "~2.30.0",
     "@typescript-eslint/parser": "~2.30.0",
+    "blakejs": "^1.1.0",
     "browserify": "16.5.0",
     "chai": "^4.2.0",
     "eslint": "~6.8.0",
     "eslint-plugin-no-loops": "~0.3.0",
+    "keccak": "^3.0.1",
     "live-server": "^1.2.1",
     "mocha": "^6.2.3",
+    "sha3": "^2.1.4",
     "ts-node": "^8.10.2",
     "typescript": "~3.8.3"
   },
   "resolutions": {
     "websocket-extensions": "0.1.4"
-  },
-  "dependencies": {
-    "blakejs": "^1.1.0",
-    "keccak": "^3.0.1",
-    "sha3": "^2.1.4"
   }
 }
