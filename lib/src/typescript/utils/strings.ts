@@ -36,11 +36,8 @@ export const extract = (from: string, startIndex: number, desiredLength: number)
   return from.repeat(Math.ceil(lengthNeeded / from.length)).substr(startIndex, desiredLength)
 }
 
-// Splits a string in two equal parts
+// Splits a string in two parts
 export const split = (str: string): [string, string] => {
-  if (str.length % 2 != 0) {
-    throw new Error('invalid string length: cannot be split')
-  }
   const half = str.length / 2
   return [str.substr(0, half), str.substr(half)]
 }

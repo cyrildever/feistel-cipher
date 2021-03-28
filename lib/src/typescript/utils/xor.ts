@@ -24,3 +24,5 @@ SOFTWARE.
 export const xor = (str1: string, str2: string): string => {
   return Array.from(str1).reduce((xored, c, idx) => xored + String.fromCharCode(c.charCodeAt(0) ^ str2.charCodeAt(idx)), '')
 }
+
+export const NEUTRAL_BYTE = Buffer.from([0]).toString()

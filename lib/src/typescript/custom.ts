@@ -29,7 +29,7 @@ import { xor } from './utils/xor'
  * The CustomCipher class is the entry point to the Feistel cipher if you want to use your own set of keys.
  * The number of rounds will be defined by the number of keys provided at instantiation.
  * For better security, you should choose a 256-bit keys or longer.
- * Once instantiated, use the encrypt() or decrypt() methods on the Cipher instance with the appropriate data.
+ * Once instantiated, use the encrypt() or decrypt() methods on the CustomCipher instance with the appropriate data.
  * 
  * @throws no key provided
  */
@@ -48,13 +48,17 @@ export class CustomCipher {
    * 
    * @param {string} data - The data to obfuscate
    * @returns {Buffer} The byte array of the obfuscated result
+   * @throws invalid string: unable to split
    */
   encrypt(data: string): Buffer {
     if (data.length % 2 == 1) {
       data = data.padStart(data.length + 1, PADDING_CHARACTER)
     }
-    // Apply the Feistel cipher
+    // Apply the balanced Feistel cipher
     let parts = split(data)
+    if (parts.length !== 2 || parts[0].length !== parts[1].length) {
+      throw new Error('invalid string: unable to split')
+    }
     for (let i = 0; i < this.keys.length; ++i) { // eslint-disable-line no-loops/no-loops
       const tmp = xor(parts[0], this.round(parts[1], i))
       parts = [parts[1], tmp]
@@ -74,7 +78,7 @@ export class CustomCipher {
     if (o.length % 2 != 0) {
       throw new Error('invalid obfuscated data')
     }
-    // Apply Feistel cipher
+    // Apply the balanced Feistel cipher
     const parts = split(o)
     let a = parts[1]
     let b = parts[0]

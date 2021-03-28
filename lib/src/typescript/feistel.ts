@@ -38,7 +38,7 @@ export class Cipher {
   rounds: number
 
   constructor(key: string, rounds: number) {
-    if (key === '' || rounds === 0) {
+    if (key === '' || rounds < 2) {
       throw new Error('wrong arguments')
     }
     this.key = key
@@ -50,13 +50,17 @@ export class Cipher {
    * 
    * @param {string} data - The data to obfuscate
    * @returns {Buffer} The byte array of the obfuscated result.
+   * @throws invalid string: unable to split
    */
   encrypt(data: string): Buffer {
     if (data.length % 2 == 1) {
       data = data.padStart(data.length + 1, PADDING_CHARACTER)
     }
-    // Apply the Feistel cipher
+    // Apply the balanced Feistel cipher
     let parts = split(data)
+    if (parts.length !== 2 || parts[0].length !== parts[1].length) {
+      throw new Error('invalid string: unable to split')
+    }
     for (let i = 0; i < this.rounds; ++i) { // eslint-disable-line no-loops/no-loops
       const tmp = xor(parts[0], this.round(parts[1], i))
       parts = [parts[1], tmp]
@@ -76,7 +80,7 @@ export class Cipher {
     if (o.length % 2 != 0) {
       throw new Error('invalid obfuscated data')
     }
-    // Apply Feistel cipher
+    // Apply the balanced Feistel cipher
     const parts = split(o)
     let a = parts[1]
     let b = parts[0]

@@ -21,6 +21,42 @@ SOFTWARE.
 */
 
 import { createHash, BinaryLike } from 'crypto'
+import createKeccak from 'keccak'
+import { SHA3 } from 'sha3'
+const blake2 = require('blakejs') // eslint-disable-line @typescript-eslint/no-var-requires
 
 export const Hash = (msg: BinaryLike): Buffer =>
   createHash('sha256').update(msg).digest()
+
+export type Engine = string
+
+export const BLAKE2b = 'blake-2b-256'
+export const KECCAK = 'keccak-256'
+export const SHA_256 = 'sha-256'
+export const SHA_3 = 'sha-3'
+
+export const isAvailableEngine = (engine: Engine): boolean =>
+  engine === BLAKE2b || engine === KECCAK || engine === SHA_256 || engine === SHA_3
+
+/**
+ * Create a hash from the passed message using the specified algorithm
+ * 
+ * @param {Buffer} msg - The message to hash 
+ * @param {Enging} using - The algorithm name
+ * @returns the hashed byte array
+ * @throws unknown hash algorithm
+ */
+export const H = (msg: Buffer, using: Engine): Buffer => {
+  switch (using) {
+    case BLAKE2b:
+      return Buffer.from(blake2.blake2b(msg, '', 32), 'hex')
+    case KECCAK:
+      return createKeccak('keccak256').update(msg).digest()
+    case SHA_256:
+      return Hash(msg)
+    case SHA_3:
+      return new SHA3(256).update(msg).digest()
+    default:
+      throw new Error('unknown hash algorithm')
+  }
+}
