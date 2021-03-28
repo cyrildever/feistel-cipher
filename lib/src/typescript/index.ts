@@ -21,6 +21,7 @@ SOFTWARE.
 */
 
 export * from './feistel'
+export * from './fpe'
 export * from './custom'
 
 export * from './utils/base256'

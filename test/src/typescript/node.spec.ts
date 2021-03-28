@@ -3,7 +3,9 @@ import 'mocha'
 chai.should()
 
 import * as feistel from '../../../lib/src/typescript/index'
-import { base256CharAt, hex2Readable, indexOfBase256, readable2Buffer, readable2Hex, toBase256Readable } from '../../../lib/src/typescript/index'
+import {
+  base256CharAt, hex2Readable, indexOfBase256, readable2Buffer, readable2Hex, toBase256Readable
+} from '../../../lib/src/typescript/index'
 import { BLAKE2b, H, KECCAK, SHA_256, SHA_3 } from '../../../lib/src/typescript/utils/hash'
 import { split } from '../../../lib/src/typescript/utils/strings'
 
@@ -70,6 +72,31 @@ describe('CustomCipher', () => {
       const found = cipher.decrypt(Buffer.from('445951465c5a19613633', 'hex'))
 
       const expected = 'Edgewhere'
+      found.should.equal(expected)
+    })
+  })
+})
+describe('FPECipher', () => {
+  describe('encrypt', () => {
+    it('should be deterministic', () => {
+      const expected = 'K¡(#q|r5*'
+      const cipher = new feistel.FPECipher(SHA_256, '8ed9dcc1701c064f0fd7ae235f15143f989920e0ee9658bb7882c8d7d5f05692', 10)
+      const found = cipher.encrypt('Edgewhere')
+      found.should.equal(expected)
+    })
+  })
+  describe('decrypt', () => {
+    it('should be deterministic', () => {
+      const nonFPE = 'Edgewhere'
+      const cipher = new feistel.FPECipher(SHA_256, '8ed9dcc1701c064f0fd7ae235f15143f989920e0ee9658bb7882c8d7d5f05692', 10)
+      let found = cipher.decrypt(hex2Readable('3d7c0a0f51415a521054'))
+      found.should.equal(nonFPE)
+
+      const expected = 'Edgewhere'
+      found = cipher.decrypt(hex2Readable('2a5d07024f5a501409'))
+      found.should.equal(expected)
+
+      found = cipher.decrypt('K¡(#q|r5*')
       found.should.equal(expected)
     })
   })

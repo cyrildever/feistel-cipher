@@ -1,7 +1,7 @@
 {
   "name": "feistel-cipher",
   "version": "1.3.0",
-  "description": "Feistel cipher implementation for (almost) format-preserving encryption",
+  "description": "Feistel cipher implementation for format-preserving encryption",
   "main": "dist/lib/src/typescript/index.js",
   "types": "dist/lib/src/typescript/index.d.ts",
   "scripts": {

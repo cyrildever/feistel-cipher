@@ -32,7 +32,7 @@ The algorithmic description (provided by Wikipedia) of the encryption is as foll
 
 There is no restriction on the ![$F$](https://render.githubusercontent.com/render/math?math=F) function other than the XOR operation must be possible. For simplicity, we will choose ![$L_1$](https://render.githubusercontent.com/render/math?math=L_1) of the same size as ![$R_1$](https://render.githubusercontent.com/render/math?math=R_1) and the function ![$F$](https://render.githubusercontent.com/render/math?math=F) shall transform a word of length ![$k$](https://render.githubusercontent.com/render/math?math=k) into a word of length ![$k$](https://render.githubusercontent.com/render/math?math=k) (and this for all ![$k$](https://render.githubusercontent.com/render/math?math=k)).
 
-_NB: You may also read my original white paper [here](https://github.com/cyrildever/feistel-cipher/blob/master/feistel_whitepaper.pdf)._
+_NB: You may also read my original white paper [here](https://github.com/cyrildever/feistel-cipher/blob/master/feistel_whitepaper.pdf) as well as the latest one on the [full FPE version](https://github.com/cyrildever/feistel-cipher/blob/master/fpe_whitepaper.pdf)._
 
 
 ### Usage
@@ -84,7 +84,7 @@ assert(obfuscated.length, source.length)
 
 ### Other implementations
 
-For those interested, I also made another implementation of this Feistel cipher in [Golang](https://github.com/cyrildever/feistel).
+For those interested, I also made another implementation of these Feistel ciphers in [Golang](https://github.com/cyrildever/feistel).
 
 
 ### License
