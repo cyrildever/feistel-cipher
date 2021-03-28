@@ -6,8 +6,7 @@
 ![GitHub issues](https://img.shields.io/github/issues/cyrildever/feistel-cipher)
 ![NPM](https://img.shields.io/npm/l/feistel-cipher)
 
-This is a TypeScript library implementing the Feistel cipher for "almost" format-preserving encryption.
-"Almost" because as we use a balanced version of the implementation, we need the input string to be of even length. If that's the case, the length will be preserved, otherwise the output will be one character longer.
+This is a TypeScript library implementing the Feistel cipher for format-preserving encryption (FPE).
 
 ### Motivation
 
@@ -71,6 +70,15 @@ const cipher = new feistel.CustomCipher([
   '9876543210fedcba9876543210fedcba9876543210fedcba9876543210fedcba',
   'abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789'
 ])
+```
+
+Finally, you might want to use the latest `FPECipher` providing true format-preserving encryption for strings:
+```typescript
+import { SHA_256 } from 'feistel-cipher'
+
+const cipher = new feistel.FPECipher(SHA_256, 'some-32-byte-long-key-to-be-safe', 128)
+const obfuscated = cipher.encrypt(source)
+assert(obfuscated.length, source.length)
 ```
 
 

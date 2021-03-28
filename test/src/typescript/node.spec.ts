@@ -3,6 +3,7 @@ import 'mocha'
 chai.should()
 
 import * as feistel from '../../../lib/src/typescript/index'
+import { BLAKE2b, H, KECCAK, SHA_256, SHA_3 } from '../../../lib/src/typescript/utils/hash'
 
 describe('Cipher', () => {
   describe('encrypt', () => {
@@ -68,6 +69,31 @@ describe('CustomCipher', () => {
 
       const expected = 'Edgewhere'
       found.should.equal(expected)
+    })
+  })
+})
+describe('hash', () => {
+  describe('H', () => {
+    const data = Buffer.from('Edgewhere')
+    it('should create a Blake-2b hash', () => {
+      const expected = 'e5ff44a9b2caa01099082dd6e9055ea5d002beea078e9251454494ccf6869b2f'
+      const found = H(data, BLAKE2b)
+      found.toString('hex').should.equal(expected)
+    })
+    it('should create a Keccak hash', () => {
+      const expected = 'ac501ee78bc9b9429f6b923953946606b260a8de141eb253567342b678bc5f10'
+      const found = H(data, KECCAK)
+      found.toString('hex').should.equal(expected)
+    })
+    it('should create a SHA-256 hash', () => {
+      const expected = 'c0c77f225dd222144bc4ef79dca00ab7d955f26da2b1e0f25df81f8a7e86917c'
+      const found = H(data, SHA_256)
+      found.toString('hex').should.equal(expected)
+    })
+    it('should create a SHA-3 hash', () => {
+      const expected = '9d6bf5763cb18bceb7c15270ff8400ae70bf3cd71928463a30f02805d913409d'
+      const found = H(data, SHA_3)
+      found.toString('hex').should.equal(expected)
     })
   })
 })
