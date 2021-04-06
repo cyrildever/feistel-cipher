@@ -81,10 +81,19 @@ const obfuscated = cipher.encrypt(source)
 assert(obfuscated.length, source.length)
 ```
 
+### Dependencies
+
+This library relies on three peer dependencies:
+* `blakejs`;
+* `keccak`;
+* `sha3`.
+
 
 ### Other implementations
 
-For those interested, I also made another implementation of these Feistel ciphers in [Golang](https://github.com/cyrildever/feistel).
+For those interested, I also made two other implementations of these Feistel ciphers:
+* In [Golang](https://github.com/cyrildever/feistel);
+* In [Scala](https://github.com/cyrildever/feistel-jar).
 
 
 ### License
