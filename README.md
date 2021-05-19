@@ -84,9 +84,9 @@ assert(obfuscated.length, source.length)
 ### Dependencies
 
 This library relies on three peer dependencies:
-* `blakejs`;
-* `keccak`;
-* `sha3`.
+* [`blakejs`](https://www.npmjs.com/package/blakejs);
+* [`keccak`](https://www.npmjs.com/package/keccak);
+* [`sha3`](https://www.npmjs.com/package/sha3).
 
 
 ### Other implementations
