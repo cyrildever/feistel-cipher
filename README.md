@@ -88,6 +88,11 @@ This library relies on three peer dependencies:
 * [`keccak`](https://www.npmjs.com/package/keccak);
 * [`sha3`](https://www.npmjs.com/package/sha3).
 
+Besides, to run the tests, you would need to install [`live-server`|(https://www.npmjs.com/package/live-server):
+```console
+npm i -g live-server
+```
+
 
 ### Other implementations
 
