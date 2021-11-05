@@ -23,17 +23,17 @@ SOFTWARE.
 import { createHash, BinaryLike } from 'crypto'
 import createKeccak from 'keccak'
 import { SHA3 } from 'sha3'
-const blake2 = require('blakejs') // eslint-disable-line @typescript-eslint/no-var-requires
+const blake2 = require('blakejs') // eslint-disable-line @typescript-eslint/no-var-requires, @typescript-eslint/no-unsafe-assignment
 
 export const Hash = (msg: BinaryLike): Buffer =>
   createHash('sha256').update(msg).digest()
 
 export type Engine = string
 
-export const BLAKE2b = 'blake-2b-256'
-export const KECCAK = 'keccak-256'
-export const SHA_256 = 'sha-256'
-export const SHA_3 = 'sha-3'
+export const BLAKE2b: Engine = 'blake-2b-256'
+export const KECCAK: Engine = 'keccak-256'
+export const SHA_256: Engine = 'sha-256'
+export const SHA_3: Engine = 'sha-3'
 
 export const isAvailableEngine = (engine: Engine): boolean =>
   engine === BLAKE2b || engine === KECCAK || engine === SHA_256 || engine === SHA_3
@@ -49,6 +49,7 @@ export const isAvailableEngine = (engine: Engine): boolean =>
 export const H = (msg: Buffer, using: Engine): Buffer => {
   switch (using) {
     case BLAKE2b:
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
       return Buffer.from(blake2.blake2b(msg, '', 32), 'hex')
     case KECCAK:
       return createKeccak('keccak256').update(msg).digest()
