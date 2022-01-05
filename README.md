@@ -108,4 +108,4 @@ See the [LICENSE](LICENSE) file.
 
 
 <hr />
-&copy; 2019-2021 Cyril Dever. All rights reserved.
+&copy; 2019-2022 Cyril Dever. All rights reserved.
