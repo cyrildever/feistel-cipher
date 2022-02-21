@@ -82,7 +82,7 @@
       "error",
       {
         "allowExpressions": true,
-        "allowTypedFunctionExpressions": false,
+        "allowTypedFunctionExpressions": true,
         "allowHigherOrderFunctions": true
       }
     ],
