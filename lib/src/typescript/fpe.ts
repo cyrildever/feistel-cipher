@@ -22,9 +22,10 @@ SOFTWARE.
 
 import { toBase256Readable } from '.'
 import { Readable, readable2Buffer } from './utils/base256'
+import { addBytes, extractBytes, splitBytes } from './utils/bytes'
 import { Engine, H, isAvailableEngine } from './utils/hash'
 import { add, extract, split } from './utils/strings'
-import { NEUTRAL_BYTE, xor } from './utils/xor'
+import { NEUTRAL, NEUTRAL_BYTE, xor, xorBytes } from './utils/xor'
 
 /**
  * The FPECipher class is the latest entry point to the Feistel cipher lib providing full Format-Preserving Encryption.
@@ -50,11 +51,11 @@ export class FPECipher {
   }
 
   /**
-     * Obfuscate the passed data
-     * 
-     * @param {string} data - The data to obfuscate
-     * @returns {Readable} The byte array of the obfuscated result.
-     */
+   * Obfuscate the passed data
+   * 
+   * @param {string} data - The data to obfuscate
+   * @returns {Readable} The readable string of the obfuscated result.
+   */
   encrypt(data: string): Readable {
     let parts = split(data)
     // Apply the FPE Feistel cipher
@@ -77,6 +78,49 @@ export class FPECipher {
       parts = [left, right]
     }
     return toBase256Readable(Buffer.from(parts.join('')))
+  }
+
+  /**
+   * Obfuscate numbers
+   * 
+   * @param {number} n - The data to obfuscate
+   * @returns {number} The obfuscated number.
+   */
+  encryptNumber(n: number): number {
+    let buf = Buffer.alloc(4)
+    buf.writeUint32BE(n)
+    let parts = splitBytes(buf)
+    // Apply the FPE Feistel cipher
+    for (let i = 0; i < this.rounds; ++i) { // eslint-disable-line no-loops/no-loops
+      const left = parts[1]
+      if (parts[1].length < parts[0].length) {
+        parts[1] = Buffer.concat([parts[1], NEUTRAL])
+      }
+      const rnd = this.roundBytes(parts[1], i)
+      let tmp = parts[0]
+      let crop = false
+      if (tmp.length + 1 === rnd.length) {
+        tmp = Buffer.concat([tmp, NEUTRAL])
+        crop = true
+      }
+      let right = xorBytes(tmp, rnd)
+      if (crop) {
+        right = right.fill(right, 0, right.length - 1, 'binary')
+      }
+      parts = [left, right]
+    }
+    buf = Buffer.concat([parts[0], parts[1]])
+    return buf.readUint32BE()
+  }
+
+  /**
+   *Obfuscate strings
+   * 
+   * @param {string} str - The data to obfuscate
+   * @returns {Readable} The readable string of the obfuscated result.
+   */
+  encryptString(str: string): Readable {
+    return this.encrypt(str)
   }
 
   /**
@@ -126,5 +170,13 @@ export class FPECipher {
     const addition = add(item, extract(this.key, index, item.length))
     const hashed = H(Buffer.from(addition), this.engine).toString('hex')
     return extract(hashed, index, item.length)
+  }
+
+  // RoundBytes operates like round() on byte arrays
+  private roundBytes(item: Buffer, index: number): Buffer {
+    const addition = addBytes(item, extractBytes(Buffer.from(this.key), index, item.length))
+    const hashed = H(addition, this.engine)
+    const extracted = extract(hashed.toString('hex'), index, item.length)
+    return Buffer.from([...extracted].map(c => Buffer.from(c).readInt8()))
   }
 }

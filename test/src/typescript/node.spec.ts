@@ -87,6 +87,14 @@ describe('FPECipher', () => {
       found.should.equal(expected)
     })
   })
+  describe('encryptNumber', () => {
+    it('should produce the right number', () => {
+      const expected = 22780178
+      const cipher = new feistel.FPECipher(SHA_256, 'some-32-byte-long-key-to-be-safe', 128)
+      const found = cipher.encryptNumber(123456789)
+      found.should.equal(expected)
+    })
+  })
   describe('decrypt', () => {
     it('should be deterministic', () => {
       const nonFPE = 'Edgewhere'
