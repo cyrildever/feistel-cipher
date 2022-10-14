@@ -88,7 +88,7 @@ export class FPECipher {
    */
   encryptNumber(n: number): number {
     let buf = Buffer.alloc(4)
-    buf.writeUint32BE(n)
+    buf.writeUInt32BE(n)
     let parts = splitBytes(buf)
     // Apply the FPE Feistel cipher
     for (let i = 0; i < this.rounds; ++i) { // eslint-disable-line no-loops/no-loops
@@ -110,7 +110,7 @@ export class FPECipher {
       parts = [left, right]
     }
     buf = Buffer.concat([parts[0], parts[1]])
-    return buf.readUint32BE()
+    return buf.readUInt32BE()
   }
 
   /**

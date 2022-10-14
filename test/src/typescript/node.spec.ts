@@ -136,19 +136,7 @@ describe('hash', () => {
     })
   })
 })
-describe('strings', () => {
-  describe('extract', () => {
-    it('should return the appropriate string with the right length', () => {
-      const input = 'abcd1234'
-      let expected = '1234'
-      let found = extract(input, 4, 4)
-      found.should.equal(expected)
-
-      expected = '1234abcd12'
-      found = extract(input, 4, 10)
-      found.should.equal(expected)
-    })
-  })
+describe('bytes', () => {
   describe('extractBytes', () => {
     it('should return the appropriate byte array with the right length', () => {
       const input = Buffer.from('abcd1234', 'binary')
@@ -159,21 +147,6 @@ describe('strings', () => {
       expected = Buffer.from('1234abcd12', 'binary')
       found = extractBytes(input, 4, 10)
       found.should.eqls(expected)
-    })
-  })
-  describe('split', () => {
-    it('should split a string in two, the first part being the smallest if it is of odd length', () => {
-      const odd = 'Edgewhere'
-      let parts = split(odd)
-      parts.should.have.lengthOf(2)
-      parts[0].should.equal('Edge')
-      parts[1].should.equal('where')
-
-      const even = 'cyrildever'
-      parts = split(even)
-      parts.should.have.lengthOf(2)
-      parts[0].should.equal('cyril')
-      parts[1].should.equal('dever')
     })
   })
   describe('splitBytes', () => {
@@ -189,6 +162,35 @@ describe('strings', () => {
       parts.should.have.lengthOf(2)
       parts[0].should.eqls(Buffer.from([1, 2, 3]))
       parts[1].should.eqls(Buffer.from([4, 5, 6]))
+    })
+  })
+})
+describe('strings', () => {
+  describe('extract', () => {
+    it('should return the appropriate string with the right length', () => {
+      const input = 'abcd1234'
+      let expected = '1234'
+      let found = extract(input, 4, 4)
+      found.should.equal(expected)
+
+      expected = '1234abcd12'
+      found = extract(input, 4, 10)
+      found.should.equal(expected)
+    })
+  })
+  describe('split', () => {
+    it('should split a string in two, the first part being the smallest if it is of odd length', () => {
+      const odd = 'Edgewhere'
+      let parts = split(odd)
+      parts.should.have.lengthOf(2)
+      parts[0].should.equal('Edge')
+      parts[1].should.equal('where')
+
+      const even = 'cyrildever'
+      parts = split(even)
+      parts.should.have.lengthOf(2)
+      parts[0].should.equal('cyril')
+      parts[1].should.equal('dever')
     })
   })
 })
