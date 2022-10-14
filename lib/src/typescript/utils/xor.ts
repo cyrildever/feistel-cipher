@@ -25,4 +25,10 @@ export const xor = (str1: string, str2: string): string => {
   return Array.from(str1).reduce((xored, c, idx) => xored + String.fromCharCode(c.charCodeAt(0) ^ str2.charCodeAt(idx)), '')
 }
 
+// xorBytes applies XOR operation on thow byte arrays in the sense that each bit value are xored
+export const xorBytes = (bytes1: Buffer, bytes2: Buffer): Buffer => {
+  return Buffer.from(bytes1).reduce((xored, c, idx) => Buffer.concat([xored, Buffer.from([c ^ bytes2[idx]])]), Buffer.alloc(0))
+}
+
 export const NEUTRAL_BYTE = Buffer.from([0]).toString()
+export const NEUTRAL = Buffer.from([0])
