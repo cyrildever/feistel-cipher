@@ -93,6 +93,9 @@ describe('FPECipher', () => {
       const cipher = new feistel.FPECipher(SHA_256, 'some-32-byte-long-key-to-be-safe', 128)
       const found = cipher.encryptNumber(123456789)
       found.should.equal(expected)
+
+      const smallNumber = cipher.encryptNumber(123)
+      smallNumber.should.equal(24359)
     })
   })
   describe('decrypt', () => {

@@ -87,6 +87,11 @@ export class FPECipher {
    * @returns {number} The obfuscated number.
    */
   encryptNumber(n: number): number {
+    if (n < 256) {
+      const buf = Buffer.alloc(2)
+      buf.writeUInt16BE(n)
+      return readable2Buffer(this.encrypt(buf.toString())).readUInt16BE()
+    }
     let buf = Buffer.alloc(4)
     buf.writeUInt32BE(n)
     let parts = splitBytes(buf)
