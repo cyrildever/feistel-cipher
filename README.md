@@ -84,6 +84,8 @@ assert(obfuscated.length, source.length)
 If you want to use FPE for numbers, you might want to use the `encryptNumber()` method on the `FPECipher` which will return a number that you may pad if need be to match your requirements:
 ```typescript
 const obfuscatedNumber = cipher.encryptNumber(sourceNumber)
+const deobfuscatedNumber = cipher.decryptNumber(obfuscatedNumber)
+assert(sourceNumber == deobfuscatedNumber)
 ```
 
 

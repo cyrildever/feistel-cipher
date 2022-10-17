@@ -168,6 +168,53 @@ export class FPECipher {
     return left + right
   }
 
+  /**
+   * Deobfuscate the passed number
+   * 
+   * @param {number} obfuscated - The number to use
+   * @returns {number} The deobfuscated number.
+   */
+  decryptNumber(obfuscated: number): number {
+    let buf = Buffer.alloc(2)
+    let short = true
+    try {
+      buf.writeUInt16BE(obfuscated)
+    } catch (e) {
+      buf = Buffer.alloc(4)
+      buf.writeUInt32BE(obfuscated)
+      short = false
+    }
+    // Apply the FPE Feistel cipher
+    const parts = splitBytes(buf)
+    let [left, right] = parts
+    // Compensating the way Split() works by moving the first byte at right to the end of left if using an odd number of rounds
+    if (this.rounds % 2 !== 0 && left.length !== right.length) {
+      left = Buffer.concat([left, Buffer.from([right[0]])])
+      right = Buffer.alloc(0).fill(right, 1, undefined, 'binary')
+    }
+    for (let i = 0; i < this.rounds; ++i) { // eslint-disable-line no-loops/no-loops
+      let leftRound = left
+      if (left.length < right.length) {
+        leftRound = Buffer.concat([leftRound, NEUTRAL])
+      }
+      const rnd = this.roundBytes(leftRound, this.rounds - i - 1)
+      let rightRound = right
+      let extended = false
+      if (rightRound.length + 1 === rnd.length) {
+        rightRound = Buffer.concat([rightRound, Buffer.alloc(0).fill(left, left.length - 1, undefined, 'binary')])
+        extended = true
+      }
+      let tmp = xorBytes(rightRound, rnd)
+      right = left
+      if (extended) {
+        tmp = Buffer.alloc(0).fill(tmp, 0, tmp.length - 1, 'binary')
+      }
+      left = tmp
+    }
+    buf = Buffer.concat([left, right])
+    return short ? buf.readUInt16BE() : buf.readUInt32BE()
+  }
+
   // Feistel implementation
 
   // Round is the function applied at each round of the obfuscation process to the right side of the Feistel cipher
