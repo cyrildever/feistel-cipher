@@ -87,6 +87,7 @@ const obfuscatedNumber = cipher.encryptNumber(sourceNumber)
 const deobfuscatedNumber = cipher.decryptNumber(obfuscatedNumber)
 assert(sourceNumber == deobfuscatedNumber)
 ```
+_NB: For stability and security purposes, the number `0` always returns itself._
 
 
 ### Dependencies

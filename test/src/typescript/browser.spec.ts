@@ -92,6 +92,9 @@ describe('FPECipher', () => {
 
       const smallNumber = cipher.encryptNumber(123)
       smallNumber.should.equal(24359)
+
+      const zero = cipher.encryptNumber(0)
+      zero.should.equal(0)
     })
   })
   describe('decrypt', () => {
@@ -120,7 +123,7 @@ describe('FPECipher', () => {
       smallNumber.should.equal(123)
 
       const zero = cipher.decryptNumber(0)
-      zero.should.equal(24402)
+      zero.should.equal(0)
     })
   })
 })
