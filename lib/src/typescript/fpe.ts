@@ -88,6 +88,9 @@ export class FPECipher {
    */
   encryptNumber(n: number): number {
     if (n < 256) {
+      if (n === 0) {
+        return 0
+      }
       const buf = Buffer.alloc(2)
       buf.writeUInt16BE(n)
       return readable2Buffer(this.encrypt(buf.toString())).readUInt16BE()
@@ -175,6 +178,9 @@ export class FPECipher {
    * @returns {number} The deobfuscated number.
    */
   decryptNumber(obfuscated: number): number {
+    if (obfuscated === 0) {
+      return 0
+    }
     let buf = Buffer.alloc(2)
     let short = true
     try {
