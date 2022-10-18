@@ -2,8 +2,10 @@ import * as feistel from '../../../lib/src/typescript/index'
 import {
   base256CharAt, hex2Readable, indexOfBase256, readable2Buffer, readable2Hex, toBase256Readable
 } from '../../../lib/src/typescript/index'
+import { extractBytes, splitBytes } from '../../../lib/src/typescript/utils/bytes'
 import { BLAKE2b, H, KECCAK, SHA_256, SHA_3 } from '../../../lib/src/typescript/utils/hash'
-import { split } from '../../../lib/src/typescript/utils/strings'
+import { extract, split } from '../../../lib/src/typescript/utils/strings'
+import { xor, xorBytes } from '../../../lib/src/typescript/utils/xor'
 
 describe('Cipher', () => {
   describe('encrypt', () => {
@@ -81,6 +83,20 @@ describe('FPECipher', () => {
       found.should.equal(expected)
     })
   })
+  describe('encryptNumber', () => {
+    it('should produce the right number', () => {
+      const expected = 22780178
+      const cipher = new feistel.FPECipher(SHA_256, 'some-32-byte-long-key-to-be-safe', 128)
+      const found = cipher.encryptNumber(123456789)
+      found.should.equal(expected)
+
+      const smallNumber = cipher.encryptNumber(123)
+      smallNumber.should.equal(24359)
+
+      const zero = cipher.encryptNumber(0)
+      zero.should.equal(0)
+    })
+  })
   describe('decrypt', () => {
     it('should be deterministic', () => {
       const nonFPE = 'Edgewhere'
@@ -94,6 +110,20 @@ describe('FPECipher', () => {
 
       found = cipher.decrypt('K¡(#q|r5*')
       found.should.equal(expected)
+    })
+  })
+  describe('decryptNumber', () => {
+    it('should return the right number', () => {
+      const expected = 123456789
+      const cipher = new feistel.FPECipher(SHA_256, 'some-32-byte-long-key-to-be-safe', 128)
+      const found = cipher.decryptNumber(22780178)
+      found.should.equal(expected)
+
+      const smallNumber = cipher.decryptNumber(24359)
+      smallNumber.should.equal(123)
+
+      const zero = cipher.decryptNumber(0)
+      zero.should.equal(0)
     })
   })
 })
@@ -122,7 +152,48 @@ describe('hash', () => {
     })
   })
 })
+describe('bytes', () => {
+  describe('extractBytes', () => {
+    it('should return the appropriate byte array with the right length', () => {
+      const input = Buffer.from('abcd1234', 'binary')
+      let expected = Buffer.from('1234', 'binary')
+      let found = extractBytes(input, 4, 4)
+      found.should.eqls(expected)
+
+      expected = Buffer.from('1234abcd12', 'binary')
+      found = extractBytes(input, 4, 10)
+      found.should.eqls(expected)
+    })
+  })
+  describe('splitBytes', () => {
+    it('should split a byte array in two, the first part being the smallest if it is of odd length', () => {
+      const odd = Buffer.from([1, 2, 3, 4, 5])
+      let parts = splitBytes(odd)
+      parts.should.have.lengthOf(2)
+      parts[0].should.eqls(Buffer.from([1, 2]))
+      parts[1].should.eqls(Buffer.from([3, 4, 5]))
+
+      const even = Buffer.from([1, 2, 3, 4, 5, 6])
+      parts = splitBytes(even)
+      parts.should.have.lengthOf(2)
+      parts[0].should.eqls(Buffer.from([1, 2, 3]))
+      parts[1].should.eqls(Buffer.from([4, 5, 6]))
+    })
+  })
+})
 describe('strings', () => {
+  describe('extract', () => {
+    it('should return the appropriate string with the right length', () => {
+      const input = 'abcd1234'
+      let expected = '1234'
+      let found = extract(input, 4, 4)
+      found.should.equal(expected)
+
+      expected = '1234abcd12'
+      found = extract(input, 4, 10)
+      found.should.equal(expected)
+    })
+  })
   describe('split', () => {
     it('should split a string in two, the first part being the smallest if it is of odd length', () => {
       const odd = 'Edgewhere'
@@ -154,5 +225,21 @@ describe('Readable', () => {
     readable2Hex(found).should.equal('2a5d07024f5a501409')
     const hex = hex2Readable('2a5d07024f5a501409')
     hex.should.equal(found)
+  })
+})
+describe('XOR', () => {
+  describe('xor', () => {
+    it('should apply XOR operation to two strings appropriately', () => {
+      const expected = 'PPPP'
+      const found = xor('1234', 'abcd')
+      found.should.equal(expected)
+    })
+  })
+  describe('xorBytes', () => {
+    it('should apply XOR operation to two byte arrays appropriately', () => {
+      const expected = Buffer.from('PPPP', 'binary')
+      const found = xorBytes(Buffer.from('1234', 'binary'), Buffer.from('abcd', 'binary'))
+      found.should.eqls(expected)
+    })
   })
 })
