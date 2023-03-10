@@ -29,5 +29,5 @@ export * from './feistel'
 export * from './fpe'
 export * from './custom'
 
-export { BLAKE2b, KECCAK, SHA_256, SHA_3 } from './utils/hash'
+export { BLAKE2b, KECCAK, SHA_256, SHA_3, isAvailableEngine } from './utils/hash'
 export * from './utils/base256'

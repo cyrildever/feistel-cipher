@@ -1,6 +1,6 @@
 {
   "name": "feistel-cipher",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Feistel cipher implementation for format-preserving encryption",
   "main": "dist/lib/src/typescript/index.js",
   "types": "dist/lib/src/typescript/index.d.ts",
@@ -37,7 +37,7 @@
     "@types/chai": "^4.3.4",
     "@types/keccak": "^3.0.1",
     "@types/mocha": "^10.0.1",
-    "@types/node": "^18.14.6",
+    "@types/node": "^18.15.0",
     "@typescript-eslint/eslint-plugin": "^5.54.1",
     "@typescript-eslint/parser": "^5.54.1",
     "blakejs": "^1.2.1",
