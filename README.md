@@ -112,7 +112,7 @@ For those interested, I also made two other implementations of these Feistel cip
 
 ### License
 
-This module is distributed under an MIT license.
+This module is distributed under a MIT license. \
 See the [LICENSE](LICENSE) file.
 
 
