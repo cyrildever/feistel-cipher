@@ -20,11 +20,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-if (typeof window !== 'undefined') {
-  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-var-requires
-  window.Buffer = window.Buffer || require('buffer').Buffer
-}
-
 export * from './feistel'
 export * from './fpe'
 export * from './custom'

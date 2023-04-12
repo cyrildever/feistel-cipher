@@ -25,6 +25,11 @@ import { PADDING_CHARACTER, unpad } from './utils/padding'
 import { add, extract, split } from './utils/strings'
 import { xor } from './utils/xor'
 
+if (typeof window !== 'undefined') {
+  // eslint-disable-next-line no-global-assign, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-var-requires
+  Buffer = require('buffer/').Buffer
+}
+
 /**
  * The Cipher class is the main entry point to the Feistel cipher if you want to use the SHA-256 hash function at each round.
  * You should instantiate it with the base key you want to use and the number of rounds to apply.

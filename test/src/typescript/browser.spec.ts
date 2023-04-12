@@ -95,6 +95,9 @@ describe('FPECipher', () => {
 
       const zero = cipher.encryptNumber(0)
       zero.should.equal(0)
+
+      const veryLargeNumber = cipher.encryptNumber(9007199254740991) // JavaScript's unsigned max value
+      veryLargeNumber.should.equal(7873237593534198)
     })
   })
   describe('decrypt', () => {
@@ -124,6 +127,9 @@ describe('FPECipher', () => {
 
       const zero = cipher.decryptNumber(0)
       zero.should.equal(0)
+
+      const veryLargeNumber = cipher.decryptNumber(7873237593534198)
+      veryLargeNumber.should.equal(9007199254740991) // JavaScript's unsigned max value
     })
   })
 })

@@ -27,6 +27,11 @@ import { Engine, H, isAvailableEngine } from './utils/hash'
 import { add, extract, split } from './utils/strings'
 import { NEUTRAL, NEUTRAL_BYTE, xor, xorBytes } from './utils/xor'
 
+if (typeof window !== 'undefined') {
+  // eslint-disable-next-line no-global-assign, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-var-requires
+  Buffer = require('buffer/').Buffer
+}
+
 /**
  * The FPECipher class is the latest entry point to the Feistel cipher lib providing full Format-Preserving Encryption.
  * It makes use of one of the four hash algorithm added to the library (Blake-2b, Keccak, SHA-256 and SHA-3) to hash
@@ -98,7 +103,7 @@ export class FPECipher {
     const bits = Math.ceil(Math.log2(n) / 8) > 4 ? 8 : 4
     let buf = Buffer.alloc(bits)
     if (bits > 4) {
-      buf.writeBigInt64BE(BigInt(n))
+      buf.writeBigUInt64BE(BigInt(n))
     } else {
       buf.writeUInt32BE(n)
     }
@@ -131,7 +136,7 @@ export class FPECipher {
       buf = Buffer.concat([Buffer.from([0]), buf])
       diff = bits - buf.length
     }
-    return bits > 4 ? parseInt(buf.readBigInt64BE().toString()) : buf.readUInt32BE()
+    return bits > 4 ? parseInt(buf.readBigUInt64BE().toString()) : buf.readUInt32BE()
   }
 
   /**
@@ -200,7 +205,7 @@ export class FPECipher {
     const size = Math.ceil(Math.log2(obfuscated) / 8)
     if (size > 4) {
       buf = Buffer.alloc(8)
-      buf.writeBigInt64BE(BigInt(obfuscated))
+      buf.writeBigUInt64BE(BigInt(obfuscated))
       short = false
       long = true
     } else if (size > 2) {

@@ -25,6 +25,11 @@ import { PADDING_CHARACTER, unpad } from './utils/padding'
 import { add, extract, split } from './utils/strings'
 import { xor } from './utils/xor'
 
+if (typeof window !== 'undefined') {
+  // eslint-disable-next-line no-global-assign, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-var-requires
+  Buffer = require('buffer/').Buffer
+}
+
 /**
  * The CustomCipher class is the entry point to the Feistel cipher if you want to use your own set of keys.
  * The number of rounds will be defined by the number of keys provided at instantiation.

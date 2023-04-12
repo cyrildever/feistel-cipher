@@ -20,6 +20,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+if (typeof window !== 'undefined') {
+  // eslint-disable-next-line no-global-assign, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-var-requires
+  Buffer = require('buffer/').Buffer
+}
+
 // xor applies XOR operation on two strings in the sense that each charCode are xored
 export const xor = (str1: string, str2: string): string => {
   return Array.from(str1).reduce((xored, c, idx) => xored + String.fromCharCode(c.charCodeAt(0) ^ str2.charCodeAt(idx)), '')

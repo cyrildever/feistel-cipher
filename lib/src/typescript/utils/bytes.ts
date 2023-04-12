@@ -20,6 +20,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+if (typeof window !== 'undefined') {
+  // eslint-disable-next-line no-global-assign, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-var-requires
+  Buffer = require('buffer/').Buffer
+}
+
 // Adds two byte arrays in the sense that each bit values are added modulo 256 to be rendered as UTF-8
 export const addBytes = (bytes1: Buffer, bytes2: Buffer): Buffer => {
   if (bytes1.length != bytes2.length) {

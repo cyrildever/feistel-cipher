@@ -92,8 +92,9 @@ _NB: For stability and security purposes, the number `0` always returns itself._
 
 ### Dependencies
 
-This library relies on three peer dependencies:
+This library relies on four dependencies:
 * [`blakejs`](https://www.npmjs.com/package/blakejs);
+* [`buffer`](https://www.npmjs.com/package/buffer);
 * [`keccak`](https://www.npmjs.com/package/keccak);
 * [`sha3`](https://www.npmjs.com/package/sha3).
 
