@@ -95,8 +95,16 @@ export class FPECipher {
       buf.writeUInt16BE(n)
       return readable2Buffer(this.encrypt(buf.toString())).readUInt16BE()
     }
-    let buf = Buffer.alloc(4)
-    buf.writeUInt32BE(n)
+    const bits = Math.ceil(Math.log2(n) / 8) > 4 ? 8 : 4
+    let buf = Buffer.alloc(bits)
+    if (bits > 4) {
+      buf.writeBigInt64BE(BigInt(n))
+    } else {
+      buf.writeUInt32BE(n)
+    }
+    while (buf[0] === 0) { // eslint-disable-line no-loops/no-loops
+      buf = buf.subarray(1)
+    }
     let parts = splitBytes(buf)
     // Apply the FPE Feistel cipher
     for (let i = 0; i < this.rounds; ++i) { // eslint-disable-line no-loops/no-loops
@@ -113,12 +121,17 @@ export class FPECipher {
       }
       let right = xorBytes(tmp, rnd)
       if (crop) {
-        right = right.fill(right, 0, right.length - 1, 'binary')
+        right = right.subarray(0, right.length - 1)
       }
       parts = [left, right]
     }
     buf = Buffer.concat([parts[0], parts[1]])
-    return buf.readUInt32BE()
+    let diff = bits - buf.length
+    while (diff > 0) { // eslint-disable-line no-loops/no-loops
+      buf = Buffer.concat([Buffer.from([0]), buf])
+      diff = bits - buf.length
+    }
+    return bits > 4 ? parseInt(buf.readBigInt64BE().toString()) : buf.readUInt32BE()
   }
 
   /**
@@ -183,12 +196,22 @@ export class FPECipher {
     }
     let buf = Buffer.alloc(2)
     let short = true
-    try {
-      buf.writeUInt16BE(obfuscated)
-    } catch (e) {
+    let long = false
+    const size = Math.ceil(Math.log2(obfuscated) / 8)
+    if (size > 4) {
+      buf = Buffer.alloc(8)
+      buf.writeBigInt64BE(BigInt(obfuscated))
+      short = false
+      long = true
+    } else if (size > 2) {
       buf = Buffer.alloc(4)
       buf.writeUInt32BE(obfuscated)
       short = false
+    } else {
+      buf.writeUInt16BE(obfuscated)
+    }
+    while (buf[0] === 0) { // eslint-disable-line no-loops/no-loops
+      buf = buf.subarray(1)
     }
     // Apply the FPE Feistel cipher
     const parts = splitBytes(buf)
@@ -196,7 +219,7 @@ export class FPECipher {
     // Compensating the way Split() works by moving the first byte at right to the end of left if using an odd number of rounds
     if (this.rounds % 2 !== 0 && left.length !== right.length) {
       left = Buffer.concat([left, Buffer.from([right[0]])])
-      right = Buffer.alloc(0).fill(right, 1, undefined, 'binary')
+      right = right.subarray(1)
     }
     for (let i = 0; i < this.rounds; ++i) { // eslint-disable-line no-loops/no-loops
       let leftRound = left
@@ -207,18 +230,24 @@ export class FPECipher {
       let rightRound = right
       let extended = false
       if (rightRound.length + 1 === rnd.length) {
-        rightRound = Buffer.concat([rightRound, Buffer.alloc(0).fill(left, left.length - 1, undefined, 'binary')])
+        rightRound = Buffer.concat([rightRound, left.subarray(left.length - 1)])
         extended = true
       }
       let tmp = xorBytes(rightRound, rnd)
       right = left
       if (extended) {
-        tmp = Buffer.alloc(0).fill(tmp, 0, tmp.length - 1, 'binary')
+        tmp = tmp.subarray(0, tmp.length - 1)
       }
       left = tmp
     }
     buf = Buffer.concat([left, right])
-    return short ? buf.readUInt16BE() : buf.readUInt32BE()
+    const bits = short ? 2 : long ? 8 : 4
+    let diff = bits - buf.length
+    while (diff > 0) { // eslint-disable-line no-loops/no-loops
+      buf = Buffer.concat([Buffer.from([0]), buf])
+      diff = bits - buf.length
+    }
+    return short ? buf.readUInt16BE() : long ? parseInt(buf.readBigUInt64BE().toString()) : buf.readUInt32BE()
   }
 
   // Feistel implementation

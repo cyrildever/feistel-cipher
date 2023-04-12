@@ -102,6 +102,11 @@ Besides, to run the tests, you would need to install [`live-server`](https://www
 npm i -g live-server
 ```
 
+To run specific tests for NodeJS, run the following: _(eg. `decryptNumber` in [node.spec.ts](test/src/typescript/node.spec.ts))_
+```console
+$ npm run test-node -- --grep "decryptNumber"
+```
+
 
 ### Other implementations
 
