@@ -73,7 +73,7 @@ export class FPECipher {
       }
       let right = xor(tmp, rnd)
       if (crop) {
-        right = right.substr(0, right.length - 1)
+        right = right.slice(0, right.length - 1)
       }
       parts = [left, right]
     }
@@ -159,8 +159,8 @@ export class FPECipher {
     let [left, right] = parts
     // Compensating the way Split() works by moving the first byte at right to the end of left if using an odd number of rounds
     if (this.rounds % 2 !== 0 && left.length !== right.length) {
-      left += right.substr(0, 1)
-      right = right.substr(1)
+      left += right.slice(0, 1)
+      right = right.slice(1)
     }
     for (let i = 0; i < this.rounds; ++i) { // eslint-disable-line no-loops/no-loops
       let leftRound = left
@@ -171,13 +171,13 @@ export class FPECipher {
       let rightRound = right
       let extended = false
       if (rightRound.length + 1 === rnd.length) {
-        rightRound += left.substr(left.length - 1)
+        rightRound += left.slice(left.length - 1)
         extended = true
       }
       let tmp = xor(rightRound, rnd)
       right = left
       if (extended) {
-        tmp = tmp.substr(0, tmp.length - 1)
+        tmp = tmp.slice(0, tmp.length - 1)
       }
       left = tmp
     }
