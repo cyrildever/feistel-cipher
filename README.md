@@ -113,7 +113,8 @@ $ npm run test-node -- --grep "decryptNumber"
 
 For those interested, I also made two other implementations of these Feistel ciphers:
 * In [Golang](https://github.com/cyrildever/feistel);
-* In [Scala](https://github.com/cyrildever/feistel-jar).
+* In [Scala](https://github.com/cyrildever/feistel-jar);
+* In [Python](https://github.com/cyrildever/feistel-py).
 
 
 ### License
@@ -123,4 +124,4 @@ See the [LICENSE](LICENSE) file.
 
 
 <hr />
-&copy; 2019-2023 Cyril Dever. All rights reserved.
+&copy; 2019-2024 Cyril Dever. All rights reserved.
