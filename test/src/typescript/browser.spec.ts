@@ -1,3 +1,5 @@
+import { should } from 'chai'
+
 import * as feistel from '../../../lib/src/typescript/index'
 import {
   base256CharAt, hex2Readable, indexOfBase256, readable2Buffer, readable2Hex, toBase256Readable
@@ -6,6 +8,8 @@ import { extractBytes, splitBytes } from '../../../lib/src/typescript/utils/byte
 import { BLAKE2b, H, KECCAK, SHA_256, SHA_3 } from '../../../lib/src/typescript/utils/hash'
 import { extract, split } from '../../../lib/src/typescript/utils/strings'
 import { xor, xorBytes } from '../../../lib/src/typescript/utils/xor'
+
+should()
 
 describe('Cipher', () => {
   describe('encrypt', () => {

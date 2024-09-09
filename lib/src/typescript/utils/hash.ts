@@ -23,10 +23,10 @@ SOFTWARE.
 import { createHash, BinaryLike } from 'crypto'
 import createKeccak from 'keccak'
 import { SHA3 } from 'sha3'
-const blake2 = require('blakejs') // eslint-disable-line @typescript-eslint/no-var-requires, @typescript-eslint/no-unsafe-assignment
+const blake2 = require('blakejs') // eslint-disable-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-require-imports
 
 if (typeof window !== 'undefined') {
-  // eslint-disable-next-line no-global-assign, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-var-requires
+  // eslint-disable-next-line no-global-assign,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-require-imports
   Buffer = require('buffer/').Buffer
 }
 

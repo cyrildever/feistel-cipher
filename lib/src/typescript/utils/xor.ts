@@ -21,7 +21,7 @@ SOFTWARE.
 */
 
 if (typeof window !== 'undefined') {
-  // eslint-disable-next-line no-global-assign, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-var-requires
+  // eslint-disable-next-line no-global-assign,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-require-imports
   Buffer = require('buffer/').Buffer
 }
 
