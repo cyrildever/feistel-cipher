@@ -1,6 +1,6 @@
 {
   "name": "feistel-cipher",
-  "version": "1.5.13",
+  "version": "1.5.14",
   "description": "Feistel cipher implementation for format-preserving encryption",
   "main": "dist/lib/src/typescript/index.js",
   "types": "dist/lib/src/typescript/index.d.ts",
@@ -36,21 +36,21 @@
     "sha3": "^2.1.4"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.1.0",
-    "@eslint/js": "^9.10.0",
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.19.0",
     "@types/chai": "^4.3.19",
-    "@types/keccak": "^3.0.4",
-    "@types/mocha": "^10.0.7",
-    "@types/node": "^22.5.4",
-    "@typescript-eslint/eslint-plugin": "^8.4.0",
-    "@typescript-eslint/parser": "^8.4.0",
-    "browserify": "17.0.0",
+    "@types/keccak": "^3.0.5",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.12.0",
+    "@typescript-eslint/eslint-plugin": "^8.22.0",
+    "@typescript-eslint/parser": "^8.22.0",
+    "browserify": "17.0.1",
     "chai": "^4.5.0",
-    "eslint": "^9.10.0",
+    "eslint": "^9.19.0",
     "eslint-plugin-no-loops": "~0.4.0",
-    "globals": "^15.9.0",
+    "globals": "^15.14.0",
     "mocha": "^10.7.3",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.4"
+    "typescript": "^5.7.3"
   }
 }
