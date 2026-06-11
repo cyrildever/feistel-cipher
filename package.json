@@ -1,16 +1,17 @@
 {
   "name": "feistel-cipher",
-  "version": "1.5.15",
+  "version": "1.6.0",
   "description": "Feistel cipher implementation for format-preserving encryption",
   "main": "dist/lib/src/typescript/index.js",
   "types": "dist/lib/src/typescript/index.d.ts",
   "scripts": {
     "compile": "eslint lib/**/*.ts && tsc",
     "fix": "eslint lib/**/*.ts --fix",
-    "test": "tsc && mocha 'test/src/typescript/node.spec.ts' --require ts-node/register && browserify ./dist/test/src/typescript/browser.spec.js -o dist/test/src/typescript/index.js && live-server --port=10001 --mount=/:test/src/typescript",
-    "fix-test": "eslint test/**/*.ts --fix",
-    "test-browser": "tsc && browserify ./dist/test/src/typescript/browser.spec.js -o dist/test/src/typescript/index.js && live-server --port=10001 --mount=/:test/src/typescript",
-    "test-node": "tsc && mocha 'test/src/typescript/node.spec.ts' --require ts-node/register"
+    "test": "npm run test-node && npm run test-browser",
+    "test-browser": "tsc && node esbuild.browser.mjs && live-server --port=10011 --mount=/:test/src/typescript",
+    "test-node": "tsc && esbuild test/src/typescript/node.spec.ts --bundle --outfile=dist/test/node.spec.cjs --platform=node --format=cjs --external:keccak --external:mocha && mocha dist/test/node.spec.cjs",
+    "test:ci": "tsc && esbuild test/src/typescript/node.spec.ts --bundle --outfile=dist/test/node.spec.cjs --platform=node --format=cjs --external:keccak --external:mocha && mocha dist/test/node.spec.cjs",
+    "fix-test": "eslint test/**/*.ts --fix"
   },
   "repository": {
     "type": "git",
@@ -36,21 +37,23 @@
     "sha3": "^2.1.4"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.3",
+    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
+    "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
+    "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^9.39.2",
-    "@types/chai": "^4.3.20",
+    "@types/chai": "^5.2.3",
     "@types/keccak": "^3.0.5",
     "@types/mocha": "^10.0.10",
-    "@types/node": "^25.0.3",
-    "@typescript-eslint/eslint-plugin": "^8.52.0",
-    "@typescript-eslint/parser": "^8.52.0",
-    "browserify": "17.0.1",
-    "chai": "^4.5.0",
+    "@types/node": "^25.9.3",
+    "@typescript-eslint/eslint-plugin": "^8.61.0",
+    "@typescript-eslint/parser": "^8.61.0",
+    "chai": "^6.2.2",
+    "crypto-browserify": "^3.12.1",
+    "esbuild": "^0.28.0",
     "eslint": "^9.39.2",
     "eslint-plugin-no-loops": "~0.4.0",
     "globals": "^17.0.0",
-    "mocha": "^10.7.3",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
+    "mocha": "^11.7.6",
+    "typescript": "^6.0.3"
   }
 }

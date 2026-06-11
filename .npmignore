@@ -1,4 +1,5 @@
 assets
+esbuild.browser.mjs
 eslint.config.mjs
 tsconfig.json
 node_modules

@@ -1,4 +1,7 @@
-import { should } from 'chai'
+// Side-effect import: registers the `.should` getter (runtime) and loads its
+// global type augmentation. Chai 6 ships no types, so the augmentation comes
+// from @types/chai's register-should.d.ts.
+import 'chai/register-should'
 
 import * as feistel from '../../../lib/src/typescript/index'
 import {
@@ -8,8 +11,6 @@ import { extractBytes, splitBytes } from '../../../lib/src/typescript/utils/byte
 import { BLAKE2b, H, KECCAK, SHA_256, SHA_3 } from '../../../lib/src/typescript/utils/hash'
 import { extract, split } from '../../../lib/src/typescript/utils/strings'
 import { xor, xorBytes } from '../../../lib/src/typescript/utils/xor'
-
-should()
 
 describe('Cipher', () => {
   describe('encrypt', () => {
