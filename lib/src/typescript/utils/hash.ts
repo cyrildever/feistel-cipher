@@ -20,7 +20,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { createHash, BinaryLike } from 'crypto'
+import { createHash } from 'crypto'
 import createKeccak from 'keccak'
 import { SHA3 } from 'sha3'
 const blake2 = require('blakejs') // eslint-disable-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-require-imports
@@ -30,7 +30,7 @@ if (typeof window !== 'undefined') {
   Buffer = require('buffer/').Buffer
 }
 
-export const Hash = (msg: BinaryLike): Buffer =>
+export const Hash = (msg: string | NodeJS.ArrayBufferView): Buffer =>
   createHash('sha256').update(msg).digest()
 
 export type Engine = string
